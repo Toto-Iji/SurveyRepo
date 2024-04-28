@@ -21,6 +21,18 @@ bar_another_column <- ggplot(column_counts, aes(x = Have.you.used.any.of.these.m
   labs(title = "Total Counts per Choice for Another Column") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
+# Calculate the total device used for the desired column
+column_device <- cleaned_data %>%
+  separate_rows(What.device.are.you.using.for.streaming.music.online...Can.select.multiple., sep = ", ") %>%
+  group_by(What.device.are.you.using.for.streaming.music.online...Can.select.multiple.) %>%
+  summarise(count = n())
+
+# Bar graph for the total device used
+bar_another_device <- ggplot(column_device, aes(x = What.device.are.you.using.for.streaming.music.online...Can.select.multiple., y = count)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Device Used") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 # Pie chart for age 
 pie_chart_age <- ggplot(cleaned_data, aes(x = "", fill = factor(Age))) +
   geom_bar(width = 1, position = "fill") +
@@ -58,5 +70,5 @@ pie_chart_education <- ggplot(cleaned_data, aes(x = "", fill = factor(Education_
   )
 
 # Arrange the plots
-grid.arrange(pie_chart_age, pie_chart_sex, pie_chart_education, bar_another_column, nrow = 2)
+grid.arrange(pie_chart_age, pie_chart_sex, pie_chart_education, bar_another_column, bar_another_device, nrow = 2)
 
