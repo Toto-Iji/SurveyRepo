@@ -1,14 +1,30 @@
+---
+title: "SurveyQuestionsPlotting"
+author: "Andrey Sumadic"
+date: "2024-04-30"
+output: pdf_document
+---
+
+```{r Load Packages}
 library(ggplot2)
 library(dplyr)
 library(tidyr)
 library(gridExtra)
+```
 
+
+
+```{r Read and Clean Data}
 # Read the data
 data <- read.csv("survey.csv")
 
 # Remove rows with missing values
 cleaned_data <- na.omit(data)
+```
 
+
+
+```{r Plotting Survey Answers}
 # Calculate the total counts per choice for the desired column
 column_counts <- cleaned_data %>%
   separate_rows(Have.you.used.any.of.these.music.streaming.platform.for.the.past.week...Can.select.multiple., sep = ", ") %>%
@@ -68,6 +84,11 @@ pie_chart_education <- ggplot(cleaned_data, aes(x = "", fill = factor(Education_
   theme(
     plot.title = element_text(hjust = 0.5)
   )
+```
 
+
+
+```{r Arrange Plots}
 # Arrange the plots
 grid.arrange(pie_chart_age, pie_chart_sex, pie_chart_education, bar_another_column, bar_another_device, nrow = 2)
+```
