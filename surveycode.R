@@ -68,6 +68,29 @@ pie_chart_education <- ggplot(cleaned_data, aes(x = "", fill = factor(Education_
   theme(
     plot.title = element_text(hjust = 0.5)
   )
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+column_countsPE1 <- cleaned_data %>%
+  separate_rows(Do.you.find.using.Digital.Music.Streaming.Platform.useful.in.discovering.new.music.., sep = ", ") %>%
+  
+  summarise(count = n())
+
+# Bar graph for the total counts per choice
+bar_columnPE1 <- ggplot(column_countsPE1, aes(x = Do.you.find.using.Digital.Music.Streaming.Platform.useful.in.discovering.new.music.., y = count)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Total Counts per Choice for Another Column") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+column_countsPE1 <- cleaned_data %>%
+  separate_rows(Do.you.find.using.Digital.Music.Streaming.Platform.useful.in.discovering.new.music.., sep = ", ") %>%
+  group_by(Do.you.find.using.Digital.Music.Streaming.Platform.useful.in.discovering.new.music..) %>%
+  summarise(count = n())
+
+# Bar graph for the total counts per choice
+bar_columnPE1 <- ggplot(column_countsPE1, aes(x = Do.you.find.using.Digital.Music.Streaming.Platform.useful.in.discovering.new.music.., y = count)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Total Counts per Choice for Another Column") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 # Arrange the plots
-grid.arrange(pie_chart_age, pie_chart_sex, pie_chart_education, bar_another_column, bar_another_device, nrow = 2)
+grid.arrange(pie_chart_age, pie_chart_sex, pie_chart_education, bar_another_column, bar_another_device, bar_columnPE1, nrow = 2)

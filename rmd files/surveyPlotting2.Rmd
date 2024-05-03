@@ -1,0 +1,73 @@
+---
+title: "PE1-EE4 Barplot"
+author: "Aeron Jesse Edombingo"
+date: "2024-04-30"
+output: pdf_document
+---
+
+```{r Load Package}
+library(ggplot2)
+```
+
+
+```{r Create List}
+PE_data <- list(
+  PE1 = data.frame(Response = c("Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"),
+                   Frequency = c(sum(PE1 == 1), sum(PE1 == 2), sum(PE1 == 3), sum(PE1 == 4), sum(PE1 == 5))),
+  
+  PE2 = data.frame(Response = c("Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"),
+                   Frequency = c(sum(PE2 == 1), sum(PE2 == 2), sum(PE2 == 3), sum(PE2 == 4), sum(PE2 == 5))),
+  
+  PE3 = data.frame(Response = c("Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"),
+                   Frequency = c(sum(PE3 == 1), sum(PE3 == 2), sum(PE3 == 3), sum(PE3 == 4), sum(PE3 == 5))),
+  
+  PE4 = data.frame(Response = c("Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"),
+                   Frequency = c(sum(PE4 == 1), sum(PE4 == 2), sum(PE4 == 3), sum(PE4 == 4), sum(PE4 == 5)))
+)
+
+EE_data <- list(
+  EE1 = data.frame(Response = c("Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"),
+                   Frequency = c(sum(EE1 == 1), sum(EE1 == 2), sum(EE1 == 3), sum(EE1 == 4), sum(EE1 == 5))),
+  
+  EE2 = data.frame(Response = c("Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"),
+                   Frequency = c(sum(EE2 == 1), sum(EE2 == 2), sum(EE2 == 3), sum(EE2 == 4), sum(EE2 == 5))),
+  
+  EE3 = data.frame(Response = c("Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"),
+                   Frequency = c(sum(EE3 == 1), sum(EE3 == 2), sum(EE3 == 3), sum(EE3 == 4), sum(EE3 == 5))),
+  
+  EE4 = data.frame(Response = c("Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"),
+                   Frequency = c(sum(EE4 == 1), sum(EE4 == 2), sum(EE4 == 3), sum(EE4 == 4), sum(EE4 == 5)))
+)
+```
+
+
+
+```{r Create Bar Charts}
+# Create bar charts for Performance Expectancy (PE1-PE4)
+PE_plots <- lapply(names(PE_data), function(name) {
+  data <- PE_data[[name]]
+  ggplot(data, aes(x = Response, y = Frequency, fill = Response)) +
+    geom_bar(stat = "identity") +
+    labs(title = paste("PE", substr(name, 3, 4)), x = "Response", y = "Frequency") +
+    theme_minimal() +
+    theme(legend.position = "none")
+})
+
+# Create bar charts for Effort Expectancy (EE1-EE4)
+EE_plots <- lapply(names(EE_data), function(name) {
+  data <- EE_data[[name]]
+  ggplot(data, aes(x = Response, y = Frequency, fill = Response)) +
+    geom_bar(stat = "identity") +
+    labs(title = paste("EE", substr(name, 3, 4)), x = "Response", y = "Frequency") +
+    theme_minimal() +
+    theme(legend.position = "none")
+})
+```
+
+
+
+```{r Display Bar Charts}
+# Display the bar charts for Performance Expectancy and Effort Expectancy
+grid.arrange(grobs = c(PE_plots), ncol = 2, top = "Performance Expectancy")
+grid.arrange(grobs = c(EE_plots), ncol = 2, top = "Effort Expectancy")
+```
