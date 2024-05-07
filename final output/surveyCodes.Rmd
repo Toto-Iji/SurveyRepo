@@ -96,19 +96,56 @@ EE4_SD
 
 
 ```{r Factoring from A1 to BI3}
-# Factor the responses
+# Factor the responses in Attitude
 A1 <- factor(filecsv$Do.you.think.using.Digital.Music.Streaming.Platform.is.a.good.way.to.discover.and.enjoy.music., levels = c("Yes", "No", "Neutral"))
 A2 <- factor(filecsv$Does.Digital.Music.Streaming.Platform.make.exploring.new.music.interesting.for.you., levels = c("Yes", "No", "Neutral"))
 A3 <- factor(filecsv$Do.you.find.using.Digital.Music.Streaming.Platform.enjoyable., levels = c("Yes", "No", "Neutral"))
 A4 <- factor(filecsv$Do.you.like.using.Digital.Music.Streaming.Platform.as.your.primary.music.streaming.service., levels = c("Yes", "No", "Neutral"))
 
+# Factor the responses in Social Influence then get the Mean and Standard Deviation
 SI1 <- factor(filecsv$Do.people.who.share.similar.music.interests.as.you.think.that.you.should.use.Digital.Music.Streaming.Platform., levels = c("Yes", "No", "Neutral"))
-SI2 <- factor(filecsv$Do.people.whose.music.taste.you.respect.think.that.you.should.use.Digital.Music.Streaming.Platform., levels = c("Yes", "No", "Neutral"))
-SI3 <- factor(filecsv$Has.the.endorsement.of.musicians.or.influencers.influenced.your.decision.to.use.Digital.Music.Streaming.Platform., levels = c("Yes", "No", "Neutral"))
+SI1_recoded <- recode(SI1, "Yes" = 1, "No" = 2, "Neutral" = 3)
+SI1_Mean <- mean(SI1_recoded)
+SI1_SD <- sd(SI1_recoded)
+SI1_Mean
+SI1_SD
 
+SI2 <- factor(filecsv$Do.people.whose.music.taste.you.respect.think.that.you.should.use.Digital.Music.Streaming.Platform., levels = c("Yes", "No", "Neutral"))
+SI2_recoded <- recode(SI2, "Yes" = 1, "No" = 2, "Neutral" = 3)
+SI2_Mean <- mean(SI2_recoded)
+SI2_SD <- sd(SI2_recoded)
+SI2_Mean
+SI2_SD
+
+SI3 <- factor(filecsv$Has.the.endorsement.of.musicians.or.influencers.influenced.your.decision.to.use.Digital.Music.Streaming.Platform., levels = c("Yes", "No", "Neutral"))
+SI3_recoded <- recode(SI3, "Yes" = 1, "No" = 2, "Neutral" = 3)
+SI3_Mean <- mean(SI3_recoded)
+SI3_SD <- sd(SI3_recoded)
+SI3_Mean
+SI3_SD
+
+# Factor the responses in Facilitating Condition then get the Mean and Standard Deviation
+# We started from FC2 because SI3 is duplicated as FC1 in the questionnaire, FCO1 is Other.
 FC2 <- factor(filecsv$Do.you.have.a.stable.internet.connection.to.use.Digital.Music.Streaming.Platform.without.interruptions., levels = c("Yes", "No", "Neutral"))
+FC2_recoded <- recode(FC2, "Yes" = 1, "No" = 2, "Neutral" = 3)
+FC2_Mean <- mean(FC2_recoded)
+FC2_SD <- sd(FC2_recoded)
+FC2_Mean
+FC2_SD
+
 FC3 <- factor(filecsv$Do.you.find.Digital.Music.Streaming.Platform.compatible.with.other.devices.or.platforms.you.use.for.listening.to.music., levels = c("Yes", "No", "Neutral"))
+FC3_recoded <- recode(FC3, "Yes" = 1, "No" = 2, "Neutral" = 3)
+FC3_Mean <- mean(FC3_recoded)
+FC3_SD <- sd(FC3_recoded)
+FC3_Mean
+FC3_SD
+
 FCO1 <- factor(filecsv$Is.there.a.dedicated.support.team.available.for.assistance.with.any.issues.you.encounter.on.different.Digital.Music.Platform., levels = c("Yes", "No", "Neutral"))
+FCO1_recoded <- recode(FCO1, "Yes" = 1, "No" = 2, "Neutral" = 3)
+FCO1_Mean <- mean(FCO1_recoded)
+FCO1_SD <- sd(FCO1_recoded)
+FCO1_Mean
+FCO1_SD
 
 SE1 <- factor(filecsv$Have.you.ever.discover.new.music.effectively.using.Digital.Music.Streaming.Platform.without.external.assistance., levels = c("Yes", "No", "Maybe"))
 SE2 <- factor(filecsv$Have.you.ever.troubleshoot.and.resolve.any.technical.issues.you.encounter.on.Digital.Music.Streaming.Platform.by.yourself., levels = c("Yes", "No", "Maybe"))
@@ -126,32 +163,54 @@ BI3 <- factor(filecsv$Do.you.plan.to.recommend.Digital.Music.Streaming.Platform.
 
 
 ```{r Data Frame Conversion}
-# Merge responses to dataframe
-mergeData <- data.frame(
-  ID = c("PE1", "PE2", "PE3", "PE4", "EE1", "EE2", "EE3", "EE4"),
-  Strongly_Disagree = c(sum(PE1 == 1), sum(PE2 == 1), sum(PE3 == 1), sum(PE4 == 1), sum(EE1 == 1), sum(EE2 == 1), sum(EE3 == 1), sum(EE4 == 1)),
-  Disagree = c(sum(PE1 == 2), sum(PE2 == 2), sum(PE3 == 2), sum(PE4 == 2), sum(EE1 == 2), sum(EE2 == 2), sum(EE3 == 2), sum(EE4 == 2)),
-  Neutral = c(sum(PE1 == 3), sum(PE2 == 3), sum(PE3 == 3), sum(PE4 == 3), sum(EE1 == 3), sum(EE2 == 3), sum(EE3 == 3), sum(EE4 == 3)),
-  Agree = c(sum(PE1 == 4), sum(PE2 == 4), sum(PE3 == 4), sum(PE4 == 4), sum(EE1 == 4), sum(EE2 == 4), sum(EE3 == 4), sum(EE4 == 4)),
-  Strongly_Agree = c(sum(PE1 == 5), sum(PE2 == 5), sum(PE3 == 5), sum(PE4 == 5), sum(EE1 == 5), sum(EE2 == 5), sum(EE3 == 5), sum(EE4 == 5)),
-  Mean = c(PE1_Mean, PE2_Mean, PE3_Mean, PE4_Mean, EE1_Mean, EE2_Mean, EE3_Mean, EE4_Mean),
-  SD = c(PE1_SD, PE2_SD, PE3_SD, PE4_SD, EE1_SD, EE2_SD, EE3_SD, EE4_SD)
-)
+# Group
+PE_means <- c(PE1_Mean, PE2_Mean, PE3_Mean, PE4_Mean)
+PE_SDs <- c(PE1_SD, PE2_SD, PE3_SD, PE4_SD)
 
-mergeData2 <- data.frame(
-  ID = c("A1", "A2", "A3", "A4", "SI1", "SI2", "SI3", "FC2", "FC3", "FCO1", "SE1", "SE2", "SE3", "AX1", "AX2", "AX3", "BI1", "BI2", "BI3"),
-  Yes = c(sum(A1 == "Yes"), sum(A2 == "Yes"), sum(A3 == "Yes"), sum(A4 == "Yes"), sum(SI1 == "Yes"), sum(SI2 == "Yes"), sum(SI3 == "Yes"), sum(FC2 == "Yes"), sum(FC3 == "Yes"), sum(FCO1 == "Yes"), sum(SE1 == "Yes"), sum(SE2 == "Yes"), sum(SE3 == "Yes"), sum(AX1 == "Yes"), sum(AX2 == "Yes"), sum(AX3 == "Yes"), sum(BI1 == "Yes"), sum(BI2 == "Yes"), sum(BI3 == "Yes")),
-  No = c(sum(A1 == "No"), sum(A2 == "No"), sum(A3 == "No"), sum(A4 == "No"), sum(SI1 == "No"), sum(SI2 == "No"), sum(SI3 == "No"), sum(FC2 == "No"), sum(FC3 == "No"), sum(FCO1 == "No"), sum(SE1 == "No"), sum(SE2 == "No"), sum(SE3 == "No"), sum(AX1 == "No"), sum(AX2 == "No"), sum(AX3 == "No"), sum(BI1 == "No"), sum(BI2 == "No"), sum(BI3 == "No")),
-  Neutral = c(sum(A1 == "Neutral"), sum(A2 == "Neutral"), sum(A3 == "Neutral"), sum(A4 == "Neutral"), sum(SI1 == "Neutral"), sum(SI2 == "Neutral"), sum(SI3 == "Neutral"), sum(FC2 == "Neutral"), sum(FC3 == "Neutral"), sum(FCO1 == "Neutral"), sum(SE1 == "Maybe"), sum(SE2 == "Maybe"), sum(SE3 == "Maybe"), sum(AX1 == "Neutral"), sum(AX2 == "Neutral"), sum(AX3 == "Neutral"), sum(BI1 == "Maybe"), sum(BI2 == "Maybe"), sum(BI3 == "Maybe"))
-)
-```
+EE_means <- c(EE1_Mean, EE2_Mean, EE3_Mean, EE4_Mean)
+EE_SDs <- c(EE1_SD, EE2_SD, EE3_SD, EE4_SD)
 
+SI_means <- c(SI1_Mean, SI2_Mean, SI3_Mean)
+SI_SDs <- c(SI1_SD, SI2_SD, SI3_SD)
 
+FC_means <- c(FC2_Mean, FC3_Mean, FCO1_Mean)
+FC_SDs <- c(FC2_SD, FC3_SD, FCO1_SD)
 
-```{r Write to CSV}
-# Write CSV file
-write.csv(mergeData, file = "Survey Data (PE1-EE4).csv", row.names = FALSE)
-write.csv(mergeData2, file = "Survey Data (A1-BI3).csv", row.names = FALSE)
+# Find the Total Means and Mean of Standard Deviation of each group
+PE_total_mean <- mean(PE_means)
+PE_total_SD_mean <- mean(PE_SDs)
+
+EE_total_mean <- mean(EE_means)
+EE_total_SD_mean <- mean(EE_SDs)
+
+SI_total_mean <- mean(SI_means)
+SI_total_SD_mean <- mean(SI_SDs)
+
+FC_total_mean <- mean(FC_means)
+FC_total_SD_mean <- mean(FC_SDs)
+
+# Create data frames
+PE_data <- data.frame(ID = "PE", Name = "Performance Expectancy", Mean = PE_means, SD = PE_SDs)
+EE_data <- data.frame(ID = "EE", Name = "Effort Expectancy", Mean = EE_means, SD = EE_SDs)
+SI_data <- data.frame(ID = "SI", Name = "Social Influence", Mean = SI_means, SD = SI_SDs)
+FC_data <- data.frame(ID = "FC", Name = "Facilitating Conditions", Mean = FC_means, SD = FC_SDs)
+
+# Write data frames to CSV files
+write.csv(PE_data, "PE_data.csv", row.names = FALSE)
+write.csv(EE_data, "EE_data.csv", row.names = FALSE)
+write.csv(SI_data, "SI_data.csv", row.names = FALSE)
+write.csv(FC_data, "FC_data.csv", row.names = FALSE)
+
+# Create data frames for combined factors
+Factors_means <- c(PE_total_mean, EE_total_mean, SI_total_mean, FC_total_mean)
+Factors_SDs <- c(PE_total_SD_mean, EE_total_SD_mean, SI_total_SD_mean, FC_total_SD_mean)
+Factor_names <- c("Performance Expectancy", "Effort Expectancy", "Social Influence", "Facilitating Conditions")
+
+Factors_data <- data.frame(ID = c("PE", "EE", "SI", "FC"), Name = Factor_names, Mean = Factors_means, SD = Factors_SDs)
+
+# Write combined factors CSV file
+write.csv(Factors_data, "Combined_factors.csv", row.names = FALSE)
+
 ```
 
 
@@ -247,7 +306,7 @@ column_countsPE1 <- cleaned_data %>%
   group_by(Do.you.find.using.Digital.Music.Streaming.Platform.useful.in.discovering.new.music..) %>%
   summarise(count = n())
 
-# Bar graph for the total counts per choice
+# Bar graph for PE1
 bar_columnPE1 <- ggplot(column_countsPE1, aes(x = Do.you.find.using.Digital.Music.Streaming.Platform.useful.in.discovering.new.music.., y = count)) +
   geom_bar(stat = "identity") +
   labs(title = "PE1") +
@@ -259,7 +318,7 @@ column_countsPE2 <- cleaned_data %>%
   group_by(Does.Digital.Music.Streaming.Platform.enable.you.to.easily.create.and.share.playlists.) %>%
   summarise(count = n())
 
-# Bar graph for the total counts per choice
+# Bar graph for PE2
 bar_columnPE2 <- ggplot(column_countsPE2, aes(x = Does.Digital.Music.Streaming.Platform.enable.you.to.easily.create.and.share.playlists., y = count)) +
   geom_bar(stat = "identity") +
   labs(title = "PE2") +
@@ -271,13 +330,11 @@ column_countsPE3 <- cleaned_data %>%
   group_by(Do.you.believe.that.using.Digital.Music.Streaming.Platform.will.enhance.your.overall.music.listening.experience.) %>%
   summarise(count = n())
 
-# Bar graph for the total counts per choice
+# Bar graph for PE3
 bar_columnPE3 <- ggplot(column_countsPE3, aes(x = Do.you.believe.that.using.Digital.Music.Streaming.Platform.will.enhance.your.overall.music.listening.experience., y = count)) +
   geom_bar(stat = "identity") +
   labs(title = "PE3") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-# Now continuing with PE4 to EE4
 
 # PE4
 column_countsPE4 <- cleaned_data %>%
@@ -285,7 +342,7 @@ column_countsPE4 <- cleaned_data %>%
   group_by(Do.you.think.using.Digital.Music.Streaming.Platform.will.increase.your.engagement.with.music.related.content.) %>%
   summarise(count = n())
 
-# Bar graph for the total counts per choice
+# Bar graph for PE4
 bar_columnPE4 <- ggplot(column_countsPE4, aes(x = Do.you.think.using.Digital.Music.Streaming.Platform.will.increase.your.engagement.with.music.related.content., y = count)) +
   geom_bar(stat = "identity") +
   labs(title = "PE4") +
@@ -297,7 +354,7 @@ column_countsEE1 <- cleaned_data %>%
   group_by(Do.you.find.navigating.through.Digital.Music.Streaming.Platform.clear.and.understandable.) %>%
   summarise(count = n())
 
-# Bar graph for the total counts per choice
+# Bar graph for EE1
 bar_columnEE1 <- ggplot(column_countsEE1, aes(x = Do.you.find.navigating.through.Digital.Music.Streaming.Platform.clear.and.understandable., y = count)) +
   geom_bar(stat = "identity") +
   labs(title = "EE1") +
@@ -309,7 +366,7 @@ column_countsEE2 <- cleaned_data %>%
   group_by(Do.you.find.Digital.Music.Streaming.Platform.easy.to.use.in.terms.of.searching.for.and.playing.music.) %>%
   summarise(count = n())
 
-# Bar graph for the total counts per choice
+# Bar graph for EE2
 bar_columnEE2 <- ggplot(column_countsEE2, aes(x = Do.you.find.Digital.Music.Streaming.Platform.easy.to.use.in.terms.of.searching.for.and.playing.music., y = count)) +
   geom_bar(stat = "identity") +
   labs(title = "EE2") +
@@ -321,7 +378,7 @@ column_countsEE3 <- cleaned_data %>%
   group_by(Do.you.believe.it.would.be.easy.for.you.to.become.skilled.in.using.Digital.Music.Streaming.Platform.) %>%
   summarise(count = n())
 
-# Bar graph for the total counts per choice
+# Bar graph for EE3
 bar_columnEE3 <- ggplot(column_countsEE3, aes(x = Do.you.believe.it.would.be.easy.for.you.to.become.skilled.in.using.Digital.Music.Streaming.Platform., y = count)) +
   geom_bar(stat = "identity") +
   labs(title = "EE3") +
@@ -333,7 +390,7 @@ column_countsEE4 <- cleaned_data %>%
   group_by(Do.you.find.learning.to.use.Digital.Music.Streaming.Platform.easy.) %>%
   summarise(count = n())
 
-# Bar graph for the total counts per choice
+# Bar graph for EE4
 bar_columnEE4 <- ggplot(column_countsEE4, aes(x = Do.you.find.learning.to.use.Digital.Music.Streaming.Platform.easy., y = count)) +
   geom_bar(stat = "identity") +
   labs(title = "EE4") +
@@ -344,8 +401,17 @@ bar_columnEE4 <- ggplot(column_countsEE4, aes(x = Do.you.find.learning.to.use.Di
 
 ```{r}
 grid.arrange(pie_chart_age,pie_chart_sex, pie_chart_education)
+# Most respondents are from the age range of 18-25. 
+# Most respondents are male.
+# Most respondents are College students.
 grid.arrange( bar_another_column, bar_another_device)
+# Most of the respondents use Spotify as their music online streaming platform. 
+# Most of the respondents use Smartphone to stream music on their favorite music platform.
 grid.arrange(bar_columnPE1, bar_columnPE2, bar_columnPE3, bar_columnPE4, bar_columnEE1, bar_columnEE2,bar_columnEE4,bar_columnEE4, nrow = 2)
+# Most of the respondents strongly agrees that they have positive experience performance wise 
+# on their music streaming platform.
+
+# Most respondents find it convenient to use their music streaming platform.
 ```
 
 
@@ -379,6 +445,8 @@ A_plots <- lapply(names(A_data), function(name) {
 })
 
 grid.arrange(grobs = A_plots, ncol = 2, top = "Attitude toward using Digital Music Streaming Platform")
+# Most of the respondents agrees that their music streaming platform are enjoyable and interesting.
+
 
 # Create Pie Chart for SI1-SI3
 SI_data <- list(
@@ -404,6 +472,7 @@ SI_plots <- lapply(names(SI_data), function(name) {
 })
 
 grid.arrange(grobs = SI_plots, ncol = 2, top = "Social Influence")
+# Most of the respondents share the same interests and influenced by other people.
 
 # Create Pie Chart for FC2-FC01
 FC_data <- list(
@@ -429,6 +498,8 @@ FC_plots <- lapply(names(FC_data), function(name) {
 })
 
 grid.arrange(grobs = FC_plots, ncol = 2, top = "Facilitating Conditions")
+# Most of the respondents have stable internet, compatible devices and a technical support to address issues on their music streaming platform.
+
 
 # Create Pie Chart for SE1-SE3
 SE_data <- list(
@@ -454,6 +525,8 @@ SE_plots <- lapply(names(SE_data), function(name) {
 })
 
 grid.arrange(grobs = SE_plots, ncol = 2, top = "Self-Efficacy")
+# Most of the students have the knowledge and skills to address their issues on their music streaming platform.
+
 
 # Create Pie Chart for AX1-AX3
 AX_data <- list(
@@ -480,6 +553,15 @@ AX_plots <- lapply(names(AX_data), function(name) {
 
 grid.arrange(grobs = AX_plots, ncol = 2, top = "Anxiety")
 
+# Missing Out on New Music Releases:
+# Most respondents voted “No.” They don’t feel anxious about missing out on new music releases if they don’t use a Digital Music Streaming Platform.
+
+# Accidental Playlist or Track Deletion:
+# Most respondents voted “Yes.” The thought of accidentally deleting playlists or favorite tracks on a Digital Music Streaming Platform makes them feel uneasy.
+
+# Playlist Backup and Anxiety Reduction:
+# Most respondents voted “Yes.” The availability of features like playlist backup on Digital Music Streaming Platforms helps reduce anxiety about losing their music collection.
+
 # Create Pie Chart for BI1-BI3
 BI_data <- list(
   BI1 = data.frame(Response = c("Yes", "No", "Maybe"),
@@ -504,4 +586,13 @@ BI_plots <- lapply(names(BI_data), function(name) {
 })
 
 grid.arrange(grobs = BI_plots, ncol = 2, top = "Behavioral Intention")
+
+# Continued Usage:
+# Most respondents voted “Yes.” They intend to continue using Digital Music Streaming Platforms as their primary music streaming service in the next 3 months.
+
+# Exploring New Features:
+# Most respondents voted “Yes.” They predict that they would explore and use new features introduced on Digital Music Streaming Platforms in the next 3 months.
+
+# Recommendations:
+# Most respondents voted “Yes.” They plan to recommend Digital Music Streaming Platforms to friends or family members in the next 3 months.
 ```
